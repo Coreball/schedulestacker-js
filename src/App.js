@@ -16,34 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return (
-        <Typography align="justify" gutterBottom>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie tempus mi.
-          Sed ultrices pellentesque arcu. Curabitur venenatis semper egestas. Sed tempus gravida tempor.
-          Integer consectetur commodo eros, eget laoreet purus blandit sit amet.
-          Suspendisse fermentum mollis eros, rhoncus viverra tortor bibendum eu. Fusce commodo arcu sit amet varius tempus.
-        </Typography>
-      );
-    case 1:
-      return (
-        <Typography align="justify" gutterBottom>
-          Instructions to select courses
-        </Typography>
-      );
-    case 2:
-      return (
-        <Typography align="justify" gutterBottom>
-          Instructions to select off periods
-        </Typography>
-      );
-    default:
-      return "Unknown Step";
-  }
-}
-
 function App() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -60,6 +32,34 @@ function App() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const getContent = (stepIndex) => {
+    switch (stepIndex) {
+      case 0:
+        return (
+          <Typography gutterBottom>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie tempus mi.
+            Sed ultrices pellentesque arcu. Curabitur venenatis semper egestas. Sed tempus gravida tempor.
+            Integer consectetur commodo eros, eget laoreet purus blandit sit amet.
+            Suspendisse fermentum mollis eros, rhoncus viverra tortor bibendum eu. Fusce commodo arcu sit amet varius tempus.
+          </Typography>
+        );
+      case 1:
+        return (
+          <Typography gutterBottom>
+            Instructions to select courses
+          </Typography>
+        );
+      case 2:
+        return (
+          <Typography gutterBottom>
+            Instructions to select off periods
+          </Typography>
+        );
+      default:
+        return "Unknown Step";
+    }
+  }
 
   return (
     <div className="App">
