@@ -4,7 +4,8 @@ import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    minWidth: 400,
+    maxWidth: '100%',
+    width: 400,
     marginBottom: theme.spacing(2)
   }
 }));
@@ -20,7 +21,8 @@ export default function ChooseCourses(props) {
       <FormControl className={classes.formControl}>
         <Autocomplete
           id="year"
-          options={props.options}
+          options={props.options.sort((a, b) => a.name > b.name ? 1 : -1).sort((a, b) => a.type - b.type)}
+          groupBy={(option) => option.type}
           getOptionLabel={(option) => option.name}
           renderInput={(params) => <TextField {...params} label="Add a course" />}
         />

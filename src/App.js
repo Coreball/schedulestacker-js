@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles, CircularProgress } from '@material-ui/core';
 import { red, blue } from '@material-ui/core/colors';
 import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
@@ -13,9 +13,22 @@ const theme = createMuiTheme({
 })
 
 const useStyles = makeStyles((theme) => ({
+  buttonWrapper: {
+    display: 'flex',
+  },
   backButton: {
     marginRight: theme.spacing(1),
   },
+  nextButtonWrapper: {
+    position: 'relative',
+  },
+  nextButtonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  }
 }));
 
 const urls = [
@@ -36,29 +49,34 @@ const urls = [
 function App() {
   const classes = useStyles();
   const steps = ["Master Schedule", "Courses", "Off Periods"];
+  const [loading, setLoading] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [selectedMS, setSelectedMS] = React.useState('');
   const [allCourses, setAllCourses] = React.useState('');
 
   const loadMS = (ms) => {
     console.log("Loading MS for " + ms.year);
+    setLoading(true);
     fetch(ms.url)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         setAllCourses(data);
+        setLoading(false);
+        setActiveStep(1);
       });
   }
 
   const isNextDisabled = () => {
-    return !selectedMS;
+    return !selectedMS || loading;
   }
 
   const handleNext = () => {
     if (activeStep === 0) {
       loadMS(selectedMS)
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
@@ -117,12 +135,17 @@ function App() {
           ) : (
             <div>
               {getContent(activeStep)}
-              <Button className={classes.backButton} disabled={activeStep === 0} onClick={handleBack}>
-                Back
-              </Button>
-              <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
+              <div className={classes.buttonWrapper}>
+                <Button className={classes.backButton} disabled={activeStep === 0} onClick={handleBack}>
+                  Back
+                </Button>
+                <div className={classes.nextButtonWrapper}>
+                  <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
+                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  </Button>
+                  {loading && <CircularProgress className={classes.nextButtonProgress} size={24} />}
+                </div>
+              </div>
             </div>
           )}
         </Container>
