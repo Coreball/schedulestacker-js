@@ -104,6 +104,11 @@ function App() {
     }
   }
 
+  const handleWantedCourseDelete = (remove) => {
+    console.log(remove);
+    setWantedCourses(wantedCourses.filter((course) => course.name !== remove.name));
+  }
+
   const getContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
@@ -112,7 +117,8 @@ function App() {
         );
       case 1:
         return (
-          <ChooseCourses options={allCourses} onChange={handleNewCourseChange} onAdd={handleNewCourseAdd}/>
+          <ChooseCourses options={allCourses} onChange={handleNewCourseChange} onAdd={handleNewCourseAdd}
+            wanted={wantedCourses} onDelete={handleWantedCourseDelete} />
         );
       case 2:
         return (

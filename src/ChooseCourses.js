@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, makeStyles, TextField, Button } from '@material-ui/core';
+import { Typography, makeStyles, TextField, Button, Chip } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +11,15 @@ const useStyles = makeStyles((theme) => ({
   autoComplete: {
     flex: 1,
     marginRight: theme.spacing(1),
+  },
+  chipsList: {
+    display: 'flex',
+    'flex-direction': 'column',
+    'align-items': 'flex-start',
+    marginBottom: theme.spacing(1),
+  },
+  chip: {
+    marginBottom: theme.spacing(1),
   }
 }));
 
@@ -40,6 +49,12 @@ export default function ChooseCourses(props) {
           onChange={props.onChange}
         />
         <Button variant="contained" color="primary" onClick={onAdd}>Add</Button>
+      </div>
+      <div className={classes.chipsList}>
+        {props.wanted.map((course) => (
+          <Chip className={classes.chip} variant="outlined" key={course.name}
+            label={course.name} onDelete={() => props.onDelete(course)} />
+        ))}
       </div>
     </div>
   );
