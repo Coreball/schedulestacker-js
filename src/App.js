@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles } from '@material-ui/core';
 import { red, blue } from '@material-ui/core/colors';
+import ChooseMS from './ChooseMS';
 
 const theme = createMuiTheme({
   palette: {
@@ -16,12 +17,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const urls = [
+  {
+    year: "2019-2020",
+    url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20192020.json"
+  },
+  {
+    year: "2018-2019",
+    url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20182019.json"
+  },
+  {
+    year: "2017-2018",
+    url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20172018.json"
+  },
+]
+
 function App() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
   const steps = ["Master Schedule", "Courses", "Off Periods"];
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [selectedMS, setSelectedMS] = React.useState('');
+  const [allCourses, setAllCourses] = React.useState('');
+
+  const loadMS = (ms) => {
+    console.log("Loading MS for " + ms.year);
+    fetch(ms.url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setAllCourses(data);
+      });
+  }
+
+  const isNextDisabled = () => {
+    return !selectedMS;
+  }
 
   const handleNext = () => {
+    if (activeStep === 0) {
+      loadMS(selectedMS)
+    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -33,16 +68,15 @@ function App() {
     setActiveStep(0);
   };
 
+  const handleSelectedMSChange = (event) => {
+    setSelectedMS(event.target.value);
+  };
+
   const getContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
         return (
-          <Typography gutterBottom>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie tempus mi.
-            Sed ultrices pellentesque arcu. Curabitur venenatis semper egestas. Sed tempus gravida tempor.
-            Integer consectetur commodo eros, eget laoreet purus blandit sit amet.
-            Suspendisse fermentum mollis eros, rhoncus viverra tortor bibendum eu. Fusce commodo arcu sit amet varius tempus.
-          </Typography>
+          <ChooseMS options={urls} value={selectedMS} onChange={handleSelectedMSChange}/>
         );
       case 1:
         return (
@@ -87,7 +121,7 @@ function App() {
               <Button className={classes.backButton} disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </Button>
-              <Button onClick={handleNext} variant="contained" color="primary">
+              <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button>
             </div>
