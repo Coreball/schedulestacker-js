@@ -3,6 +3,7 @@ import './App.css';
 import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles } from '@material-ui/core';
 import { red, blue } from '@material-ui/core/colors';
 import ChooseMS from './ChooseMS';
+import ChooseCourses from './ChooseCourses';
 
 const theme = createMuiTheme({
   palette: {
@@ -76,13 +77,11 @@ function App() {
     switch (stepIndex) {
       case 0:
         return (
-          <ChooseMS options={urls} value={selectedMS} onChange={handleSelectedMSChange}/>
+          <ChooseMS options={urls} value={selectedMS} onChange={handleSelectedMSChange} />
         );
       case 1:
         return (
-          <Typography gutterBottom>
-            Instructions to select courses
-          </Typography>
+          <ChooseCourses options={allCourses} />
         );
       case 2:
         return (
