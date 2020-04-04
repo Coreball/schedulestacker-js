@@ -53,6 +53,8 @@ function App() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [selectedMS, setSelectedMS] = React.useState('');
   const [allCourses, setAllCourses] = React.useState('');
+  const [newCourse, setNewCourse] = React.useState();
+  const [wantedCourses, setWantedCourses] = React.useState([]);
 
   const loadMS = (ms) => {
     console.log("Loading MS for " + ms.year);
@@ -91,6 +93,17 @@ function App() {
     setSelectedMS(event.target.value);
   };
 
+  const handleNewCourseChange = (event, value) => {
+    setNewCourse(value);
+  };
+
+  const handleNewCourseAdd = () => {
+    console.log(newCourse);
+    if (newCourse != null && !wantedCourses.some((course) => course.name === newCourse.name)) {
+      setWantedCourses(wantedCourses.concat(newCourse));
+    }
+  }
+
   const getContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
@@ -99,7 +112,7 @@ function App() {
         );
       case 1:
         return (
-          <ChooseCourses options={allCourses} />
+          <ChooseCourses options={allCourses} onChange={handleNewCourseChange} onAdd={handleNewCourseAdd}/>
         );
       case 2:
         return (
