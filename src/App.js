@@ -5,6 +5,7 @@ import { red, blue } from '@material-ui/core/colors';
 import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
 import ChooseOffPeriods from './ChooseOffPeriods';
+import ChooseTeachers from './ChooseTeachers';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,7 +50,7 @@ const urls = [
 
 function App() {
   const classes = useStyles();
-  const steps = ["Master Schedule", "Courses", "Off Periods"];
+  const steps = ["Master Schedule", "Courses", "Off Periods", "Teachers"];
   const [loading, setLoading] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [selectedMS, setSelectedMS] = React.useState('');
@@ -57,6 +58,7 @@ function App() {
   const [newCourse, setNewCourse] = React.useState();
   const [wantedCourses, setWantedCourses] = React.useState([]);
   const [wantedOffPeriods, setWantedOffPeriods] = React.useState(Array(8).fill(false));
+  const [availableTeachers, setAvailableTeachers] = React.useState('')
 
   const loadMS = (ms) => {
     console.log("Loading MS for " + ms.year);
@@ -71,6 +73,30 @@ function App() {
       });
   };
 
+  const wantsOffPeriod = (period) => wantedOffPeriods[period - 1];
+
+  const prepareAvailableTeachers = () => {
+    let courses = {};
+    wantedCourses.forEach((course) => {
+      let teachers = {};
+      Object.keys(course).forEach((sem) => {
+        if (sem === 'year' || sem === 's1' || sem === 's2') {
+          Object.keys(course[sem]).forEach((period) => {
+            course[sem][period].forEach((instance) => {
+              if (!(instance.teacher in teachers) && !wantsOffPeriod(instance.period)) {
+                teachers[instance.teacher] = (availableTeachers[course.name]
+                  && availableTeachers[course.name][instance.teacher]) || false; // Do previous or unselected
+              }
+            })
+          })
+        }
+      })
+      courses[course.name] = teachers;
+    })
+    console.log(courses);
+    setAvailableTeachers(courses);
+  };
+
   const isNextDisabled = () => {
     return loading
       || (activeStep === 0 && !selectedMS)
@@ -80,6 +106,9 @@ function App() {
   const handleNext = () => {
     if (activeStep === 0) {
       loadMS(selectedMS)
+    } else if (activeStep === 2) {
+      prepareAvailableTeachers();
+      setActiveStep(3);
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -133,6 +162,10 @@ function App() {
       case 2:
         return (
           <ChooseOffPeriods options={wantedOffPeriods} onChange={handleWantedOffPeriodChange} />
+        );
+      case 3:
+        return (
+          <ChooseTeachers options={wantedOffPeriods} onChange={handleWantedOffPeriodChange} />
         );
       default:
         return "Unknown Step";
