@@ -4,6 +4,7 @@ import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, 
 import { red, blue } from '@material-ui/core/colors';
 import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
+import ChooseOffPeriods from './ChooseOffPeriods';
 
 const theme = createMuiTheme({
   palette: {
@@ -55,6 +56,7 @@ function App() {
   const [allCourses, setAllCourses] = React.useState('');
   const [newCourse, setNewCourse] = React.useState();
   const [wantedCourses, setWantedCourses] = React.useState([]);
+  const [wantedOffPeriods, setWantedOffPeriods] = React.useState(Array(8).fill(false));
 
   const loadMS = (ms) => {
     console.log("Loading MS for " + ms.year);
@@ -67,13 +69,13 @@ function App() {
         setLoading(false);
         setActiveStep(1);
       });
-  }
+  };
 
   const isNextDisabled = () => {
     return loading
       || (activeStep === 0 && !selectedMS)
       || (activeStep === 1 && wantedCourses.length < 1);
-  }
+  };
 
   const handleNext = () => {
     if (activeStep === 0) {
@@ -104,12 +106,18 @@ function App() {
     if (newCourse != null && !wantedCourses.some((course) => course.name === newCourse.name)) {
       setWantedCourses(wantedCourses.concat(newCourse));
     }
-  }
+  };
 
   const handleWantedCourseDelete = (remove) => {
     console.log(remove);
     setWantedCourses(wantedCourses.filter((course) => course.name !== remove.name));
-  }
+  };
+
+  const handleWantedOffPeriodChange = (event) => {
+    let offPeriods = [...wantedOffPeriods];
+    offPeriods[event.target.name] = event.target.checked;
+    setWantedOffPeriods(offPeriods);
+  };
 
   const getContent = (stepIndex) => {
     switch (stepIndex) {
@@ -124,14 +132,12 @@ function App() {
         );
       case 2:
         return (
-          <Typography gutterBottom>
-            Instructions to select off periods
-          </Typography>
+          <ChooseOffPeriods options={wantedOffPeriods} onChange={handleWantedOffPeriodChange} />
         );
       default:
         return "Unknown Step";
     }
-  }
+  };
 
   return (
     <div className="App">
