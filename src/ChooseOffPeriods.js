@@ -3,8 +3,8 @@ import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Button
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   }
 }));
 
@@ -30,7 +30,6 @@ export default function ChooseOffPeriods(props) {
           ))}
         </FormGroup>
       </FormControl>
-      <Button onClick={() => console.log(props.options)}>help</Button>
     </div>
   );
 }

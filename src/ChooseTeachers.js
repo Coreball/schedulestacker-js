@@ -2,9 +2,15 @@ import React from 'react';
 import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Button, Checkbox, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  forms: {
+    display: 'flex',
+    'flex-direction': 'column',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
   formControl: {
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(1),
   }
 }));
 
@@ -18,12 +24,12 @@ export default function ChooseTeachers(props) {
         at least one teacher for each course offered, and it's possible that no
         schedules exist for any combination.
       </Typography>
-      <div>
+      <div className={classes.forms}>
         {Object.keys(props.options).map((course) => (
           <FormControl className={classes.formControl} key={course}>
             <FormLabel>{course}</FormLabel>
             <FormGroup>
-              {Object.keys(props.options[course]).map((teacher) => (
+              {Object.keys(props.options[course]).sort().map((teacher) => (
                 <FormControlLabel
                   key={teacher}
                   control={<Checkbox checked={props.options[course][teacher]} onChange={(event) => props.onChange(event, course)} name={teacher} />}
@@ -34,7 +40,6 @@ export default function ChooseTeachers(props) {
           </FormControl>
         ))}
       </div>
-      <Button onClick={() => console.log(props.options)}>help</Button>
     </div>
   );
 }

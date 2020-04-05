@@ -17,6 +17,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
     display: 'flex',
+    marginBottom: theme.spacing(4),
   },
   backButton: {
     marginRight: theme.spacing(1),

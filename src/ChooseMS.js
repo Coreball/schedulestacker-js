@@ -4,7 +4,8 @@ import { Typography, FormControl, InputLabel, Select, MenuItem, makeStyles } fro
 const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
-    marginBottom: theme.spacing(2)
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   }
 }));
 

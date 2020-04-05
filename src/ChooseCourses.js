@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
   autoButton: {
     display: 'flex',
     'align-items': 'flex-end',
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(2),
   },
   autoComplete: {
