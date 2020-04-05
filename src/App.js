@@ -70,7 +70,9 @@ function App() {
   }
 
   const isNextDisabled = () => {
-    return !selectedMS || loading;
+    return loading
+      || (activeStep === 0 && !selectedMS)
+      || (activeStep === 1 && wantedCourses.length < 1);
   }
 
   const handleNext = () => {
