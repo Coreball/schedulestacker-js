@@ -18,17 +18,22 @@ export default function ChooseTeachers(props) {
         at least one teacher for each course offered, and it's possible that no
         schedules exist for any combination.
       </Typography>
-      <FormControl className={classes.formControl}>
-        <FormLabel>Off Periods Required</FormLabel>
-        <FormGroup>
-          {props.options.map((checked, index) => (
-            <FormControlLabel
-              control={<Checkbox checked={checked} onChange={props.onChange} name={index} />}
-              label={"Period " + (index + 1)}
-            />
-          ))}
-        </FormGroup>
-      </FormControl>
+      <div>
+        {Object.keys(props.options).map((course) => (
+          <FormControl className={classes.formControl} key={course}>
+            <FormLabel>{course}</FormLabel>
+            <FormGroup>
+              {Object.keys(props.options[course]).map((teacher) => (
+                <FormControlLabel
+                  key={teacher}
+                  control={<Checkbox checked={props.options[course][teacher]} onChange={(event) => props.onChange(event, course)} name={teacher} />}
+                  label={teacher}
+                />
+              ))}
+            </FormGroup>
+          </FormControl>
+        ))}
+      </div>
       <Button onClick={() => console.log(props.options)}>help</Button>
     </div>
   );

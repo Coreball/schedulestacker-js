@@ -148,6 +148,16 @@ function App() {
     setWantedOffPeriods(offPeriods);
   };
 
+  const handleAvailableTeacherChange = (event, course) => {
+    setAvailableTeachers({
+      ...availableTeachers,
+      [course]: {
+        ...availableTeachers[course],
+        [event.target.name]: event.target.checked
+      }
+    });
+  }
+
   const getContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
@@ -165,7 +175,7 @@ function App() {
         );
       case 3:
         return (
-          <ChooseTeachers options={wantedOffPeriods} onChange={handleWantedOffPeriodChange} />
+          <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange} />
         );
       default:
         return "Unknown Step";
