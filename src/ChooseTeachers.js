@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Button, Checkbox, makeStyles } from '@material-ui/core';
+import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Checkbox, makeStyles, FormHelperText } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   forms: {
@@ -26,7 +26,7 @@ export default function ChooseTeachers(props) {
       </Typography>
       <div className={classes.forms}>
         {Object.keys(props.options).map((course) => (
-          <FormControl className={classes.formControl} key={course}>
+          <FormControl className={classes.formControl} key={course} error={!props.error(course)}>
             <FormLabel>{course}</FormLabel>
             <FormGroup>
               {Object.keys(props.options[course]).sort().map((teacher) => (
@@ -37,6 +37,7 @@ export default function ChooseTeachers(props) {
                 />
               ))}
             </FormGroup>
+            <FormHelperText>Select at least one teacher</FormHelperText>
           </FormControl>
         ))}
       </div>

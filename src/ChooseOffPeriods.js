@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Button, Checkbox, makeStyles } from '@material-ui/core';
+import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Checkbox, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

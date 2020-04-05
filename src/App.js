@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles, CircularProgress } from '@material-ui/core';
-import { red, blue } from '@material-ui/core/colors';
+import { deepPurple, purple } from '@material-ui/core/colors';
 import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
 import ChooseOffPeriods from './ChooseOffPeriods';
@@ -9,8 +9,8 @@ import ChooseTeachers from './ChooseTeachers';
 
 const theme = createMuiTheme({
   palette: {
-    primary: red,
-    secondary: blue,
+    primary: deepPurple,
+    secondary: purple,
   }
 })
 
@@ -76,6 +76,14 @@ function App() {
 
   const wantsOffPeriod = (period) => wantedOffPeriods[period - 1];
 
+  const availableTeachersAtLeastOneFor = (course) => {
+    return Object.keys(availableTeachers[course]).some((teacher) => availableTeachers[course][teacher]);
+  };
+
+  const availableTeachersAtLeastOneAll = () => {
+    return Object.keys(availableTeachers).every((course) => availableTeachersAtLeastOneFor(course));
+  };
+
   const prepareAvailableTeachers = () => {
     let courses = {};
     wantedCourses.forEach((course) => {
@@ -101,7 +109,8 @@ function App() {
   const isNextDisabled = () => {
     return loading
       || (activeStep === 0 && !selectedMS)
-      || (activeStep === 1 && wantedCourses.length < 1);
+      || (activeStep === 1 && wantedCourses.length < 1)
+      || (activeStep === 3 && !availableTeachersAtLeastOneAll());
   };
 
   const handleNext = () => {
@@ -176,7 +185,7 @@ function App() {
         );
       case 3:
         return (
-          <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange} />
+          <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange} error={availableTeachersAtLeastOneFor} />
         );
       default:
         return "Unknown Step";
