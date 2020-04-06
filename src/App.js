@@ -6,6 +6,7 @@ import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
 import ChooseOffPeriods from './ChooseOffPeriods';
 import ChooseTeachers from './ChooseTeachers';
+import worker from 'workerize-loader!./worker'; // eslint-disable-line import/no-webpack-loader-syntax
 
 const theme = createMuiTheme({
   palette: {
@@ -69,6 +70,7 @@ function App() {
       .then((data) => {
         console.log(data);
         setAllCourses(data);
+        // Probably want to clear everything when loading new MS
         setLoading(false);
         setActiveStep(1);
       });
@@ -104,7 +106,21 @@ function App() {
     })
     console.log(courses);
     setAvailableTeachers(courses);
+    // This checks for wanted off period conflicts, but doesn't work with double-period courses
   };
+
+  // Test function
+  const asyncSort = async (size) => {
+    let instance = worker();
+    instance.onmessage = (e) => {
+      console.log(e.data); // what do when sent message
+    }
+    console.log("starting to await");
+    let array = await instance.generateSchedules(size);
+    console.log("im done");
+    console.log(array);
+    // Stuff similar to how the load MS works
+  }
 
   const isNextDisabled = () => {
     return loading
@@ -119,6 +135,10 @@ function App() {
     } else if (activeStep === 2) {
       prepareAvailableTeachers();
       setActiveStep(3);
+    } else if (activeStep === 3) {
+      console.log("i press button");
+      asyncSort(100000);
+      console.log("async?");
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
