@@ -61,6 +61,7 @@ function App() {
   const [wantedCourses, setWantedCourses] = React.useState([]);
   const [wantedOffPeriods, setWantedOffPeriods] = React.useState(Array(8).fill(false));
   const [availableTeachers, setAvailableTeachers] = React.useState('')
+  const [progressCount, setProgressCount] = React.useState(0);
 
   const loadMS = (ms) => {
     console.log("Loading MS for " + ms.year);
@@ -111,14 +112,17 @@ function App() {
 
   // Test function
   const asyncSort = async (size) => {
+    setLoading(true);
     let instance = worker();
     instance.onmessage = (e) => {
       console.log(e.data); // what do when sent message
+      setProgressCount(e.data);
     }
     console.log("starting to await");
     let array = await instance.generateSchedules(size);
     console.log("im done");
     console.log(array);
+    setLoading(false);
     // Stuff similar to how the load MS works
   }
 
@@ -205,7 +209,8 @@ function App() {
         );
       case 3:
         return (
-          <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange} error={availableTeachersAtLeastOneFor} />
+          <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange}
+            error={availableTeachersAtLeastOneFor} open={loading} count={progressCount} />
         );
       default:
         return "Unknown Step";

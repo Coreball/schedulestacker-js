@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Checkbox, makeStyles, FormHelperText } from '@material-ui/core';
+import { Typography, FormControl, FormGroup, FormLabel, FormControlLabel, Checkbox, makeStyles, FormHelperText, Backdrop, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   forms: {
@@ -10,6 +10,15 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  backdrop: {
+    display: 'flex',
+    'flex-direction': 'column',
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+  circle: {
     marginBottom: theme.spacing(1),
   }
 }));
@@ -41,6 +50,12 @@ export default function ChooseTeachers(props) {
           </FormControl>
         ))}
       </div>
+      <Backdrop className={classes.backdrop} open={props.open}>
+        <CircularProgress className={classes.circle} color="inherit"/>
+        <Typography>
+          Generated {!isNaN(props.count) && props.count.toString()}
+        </Typography>
+      </Backdrop>
     </div>
   );
 }
