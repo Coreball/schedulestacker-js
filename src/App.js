@@ -63,18 +63,18 @@ function App() {
   const [availableTeachers, setAvailableTeachers] = React.useState('')
   const [progressCount, setProgressCount] = React.useState(0);
 
-  const loadMS = (ms) => {
+  const loadMS = async (ms) => {
     console.log("Loading MS for " + ms.year);
     setLoading(true);
-    fetch(ms.url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setAllCourses(data);
-        // Probably want to clear everything when loading new MS
-        setLoading(false);
-        setActiveStep(1);
-      });
+    const response = await fetch(ms.url);
+    const data = await response.json();
+    console.log(data);
+    setAllCourses(data);
+    setWantedCourses([]);
+    setWantedOffPeriods(Array(8).fill(false));
+    setAvailableTeachers('');
+    setLoading(false);
+    setActiveStep(1);
   };
 
   const wantsOffPeriod = (period) => wantedOffPeriods[period - 1];
@@ -111,7 +111,7 @@ function App() {
   };
 
   // Test function
-  const asyncSort = async (size) => {
+  const generate = async (size) => {
     setLoading(true);
     let instance = worker();
     instance.onmessage = (e) => {
@@ -123,7 +123,7 @@ function App() {
     console.log("im done");
     console.log(array);
     setLoading(false);
-    // Stuff similar to how the load MS works
+    setActiveStep(4);
   }
 
   const isNextDisabled = () => {
@@ -140,9 +140,7 @@ function App() {
       prepareAvailableTeachers();
       setActiveStep(3);
     } else if (activeStep === 3) {
-      console.log("i press button");
-      asyncSort(100000);
-      console.log("async?");
+      generate(100000);
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -212,6 +210,12 @@ function App() {
           <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange}
             error={availableTeachersAtLeastOneFor} open={loading} count={progressCount} />
         );
+      case 4:
+        return (
+          <Typography gutterBottom>
+            Space to list the generated schedules
+          </Typography>
+        )
       default:
         return "Unknown Step";
     }
@@ -235,24 +239,24 @@ function App() {
               </Step>
             ))}
           </Stepper>
-          {activeStep === steps.length ? (
-            <Button onClick={handleReset}>Reset</Button>
-          ) : (
-            <div>
-              {getContent(activeStep)}
-              <div className={classes.buttonWrapper}>
-                <Button className={classes.backButton} disabled={activeStep === 0} onClick={handleBack}>
-                  Back
-                </Button>
-                <div className={classes.nextButtonWrapper}>
-                  <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                  </Button>
-                  {loading && <CircularProgress className={classes.nextButtonProgress} size={24} />}
-                </div>
-              </div>
+          {getContent(activeStep)}
+          <div className={classes.buttonWrapper}>
+            <Button className={classes.backButton} disabled={activeStep === 0} onClick={handleBack}>
+              Back
+            </Button>
+            {activeStep === steps.length ? (
+              <Button onClick={handleReset}>
+                Start Over
+              </Button>
+            ) : (
+            <div className={classes.nextButtonWrapper}>
+              <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
+              {loading && <CircularProgress className={classes.nextButtonProgress} size={24} />}
             </div>
-          )}
+            )}
+          </div>
         </Container>
       </ThemeProvider>
     </div>
