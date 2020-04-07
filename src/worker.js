@@ -1,41 +1,22 @@
-export function generateSchedules(size) {
+export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeachers) {
+  const postDelay = 500;
   let lastPost = 0;
-  let delay = 500;
+  let results = [];
 
-  const run = (size) => {
-    let myArray = Array(size).fill().map(() => Math.random() * 1000);
-    console.log("Initial array generated as", myArray);
-    myArray = sort(myArray);
-    return myArray;
+  const wantsOffPeriod = (period) => wantedOffPeriods[period - 1];
+
+  const computeForPeriod = (schedule, period) => {
+    // Implement me
   }
 
-  const sort = (input) => {
-    let arr = [...input];
-    let len = arr.length;
-    const inner = (i) => {
-      let min = i;
-      for (let j = i + 1; j < len; j++) {
-          if (arr[min] > arr[j]) {
-              min = j;
-          }
-      }
-      if (min !== i) {
-          let tmp = arr[i];
-          arr[i] = arr[min];
-          arr[min] = tmp;
-      }
-    }
-    for (let i = 0; i < len; i++) {
-      if (Date.now() - lastPost >= delay) { // If no delay all the console logs lag out the browser
-        lastPost = Date.now();
-        postMessage(i); // use for progress display
-      }
-      inner(i);
-    }
-    return arr;
+  const solveSecondSemester = (schedule, period, s1) => {
+    // Implement me
   }
 
-  return (
-    run(size)
-  )
+  const makeSchedules = () => {
+    computeForPeriod([], 1);
+    return results;
+  }
+
+  return makeSchedules();
 }

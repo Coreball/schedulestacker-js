@@ -61,6 +61,7 @@ function App() {
   const [wantedCourses, setWantedCourses] = React.useState([]);
   const [wantedOffPeriods, setWantedOffPeriods] = React.useState(Array(8).fill(false));
   const [availableTeachers, setAvailableTeachers] = React.useState('')
+  const [doneSchedules, setDoneSchedules] = React.useState([]);
   const [progressCount, setProgressCount] = React.useState(0);
 
   const loadMS = async (ms) => {
@@ -110,18 +111,15 @@ function App() {
     // This checks for wanted off period conflicts, but doesn't work with double-period courses
   };
 
-  // Test function
-  const generate = async (size) => {
+  const generate = async (courses, offs, teachers) => {
     setLoading(true);
-    let instance = worker();
-    instance.onmessage = (e) => {
-      console.log(e.data); // what do when sent message
-      setProgressCount(e.data);
-    }
-    console.log("starting to await");
-    let array = await instance.generateSchedules(size);
-    console.log("im done");
-    console.log(array);
+    const instance = worker();
+    instance.onmessage = (e) => setProgressCount(e.data); // Show user how many found
+    console.log("Starting schedule generation");
+    const results = await instance.generateSchedules(courses, offs, teachers);
+    console.log("Finished schedule generation");
+    console.log(results);
+    setDoneSchedules(results);
     setLoading(false);
     setActiveStep(4);
   }
@@ -140,7 +138,7 @@ function App() {
       prepareAvailableTeachers();
       setActiveStep(3);
     } else if (activeStep === 3) {
-      generate(100000);
+      generate(wantedCourses, wantedOffPeriods, availableTeachers);
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
