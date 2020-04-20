@@ -211,7 +211,7 @@ function App() {
       case 4:
         return (
           <Typography gutterBottom>
-            Space to list the generated schedules
+            Length of doneSchedules: {doneSchedules.length}
           </Typography>
         )
       default:

@@ -1,7 +1,7 @@
 const assert = require('assert')
 
 export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeachers) {
-  const postDelay = 500;
+  const postDelay = 100;
   let lastPost = 0;
   let results = [];
 
@@ -11,13 +11,15 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
 
   const alreadyContains = (schedule, course) => (
     schedule.some((period) =>
-      period.some((instance) => instance.name === course.name))
+      period.some((instance) =>
+        instance && instance.name === course.name))
   );
 
   const computeForPeriod = (schedule, period) => {
     // If schedule is done add
     if (period > 8) {
       if (!wantedCourses.every((course) => alreadyContains(schedule, course))) return;
+      schedule.shift(); // Get rid of the leading empty list because of how I did this
       console.log("Adding schedule", schedule);
       results.push(schedule);
       const currentTime = Date.now();
@@ -30,12 +32,15 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
 
     // If we want this off period, always go to next period only (skip below)
     if (wantsOffPeriod(period)) {
-      // Consider adding empty list at schedule[period], (watch mutation!)
-      computeForPeriod([...schedule], period + 1);
+      let newSchedule = [...schedule];
+      newSchedule[period] = [];
+      computeForPeriod(newSchedule, period + 1);
       return;
     }
     // Sometimes have this as a wildcard off period
-    computeForPeriod([...schedule], period + 1);
+    let newSchedule = [...schedule];
+    newSchedule[period] = [];
+    computeForPeriod(newSchedule, period + 1);
     // Sometimes first semester can be off period and have class second semester
     solveSecondSemester(schedule, period, null);
 
@@ -43,7 +48,7 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
     wantedCourses.forEach((wantedCourse) => {
       if (!alreadyContains(schedule, wantedCourse)) {
         if (wantedCourse.year) {
-          assert(wantedCourse.year.length > 0);
+          assert(Object.keys(wantedCourse.year).length > 0);
           // Check if it's 1 period long and available this period
           if (wantedCourse.year[period]) {
             assert(wantedCourse.year[period].length > 0);
@@ -67,7 +72,7 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
           }
         }
 
-        else if (wantedCourse.s1[period]) {
+        else if (wantedCourse.s1 && wantedCourse.s1[period]) {
           assert(wantedCourse.s1[period].length > 0);
           wantedCourse.s1[period].forEach((s1) => {
             solveSecondSemester(schedule, period, s1); // Send to figure out s2
@@ -78,11 +83,29 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
   }
 
   const solveSecondSemester = (schedule, period, s1) => {
-    // Implement me
+    // Second semester could also be empty iff there is a class in s1
+    if (s1 != null) {
+      let newSchedule = [...schedule];
+      newSchedule[period] = [s1, null];
+      computeForPeriod(newSchedule, period + 1);
+    }
+    // Go through s2 courses
+    wantedCourses.forEach((wantedCourse) => {
+      if (!alreadyContains(schedule, wantedCourse) && wantedCourse.s2
+        && wantedCourse.s2[period] && (s1 === null || s1.name != wantedCourse.name)) {
+        assert(wantedCourse.s2[period].length > 0);
+        // Go through all specific courses
+        wantedCourse.s2[period].forEach((s2) => {
+          let newSchedule = [...schedule];
+          newSchedule[period] = [s1, s2];
+          computeForPeriod(newSchedule, period + 1);
+        });
+      }
+    });
   }
 
   const makeSchedules = () => {
-    computeForPeriod([], 1);
+    computeForPeriod([[]], 1);
     return results;
   }
 
