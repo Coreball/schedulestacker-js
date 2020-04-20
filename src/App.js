@@ -247,13 +247,14 @@ function App() {
                 Start Over
               </Button>
             ) : (
-            <div className={classes.nextButtonWrapper}>
-              <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-              {loading && <CircularProgress className={classes.nextButtonProgress} size={24} />}
-            </div>
-            )}
+                <div className={classes.nextButtonWrapper}>
+                  <Button disabled={isNextDisabled()} onClick={handleNext} variant="contained" color="primary">
+                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  </Button>
+                  {loading && <CircularProgress className={classes.nextButtonProgress} size={24} />}
+                </div>
+              )
+            }
           </div>
         </Container>
       </ThemeProvider>
