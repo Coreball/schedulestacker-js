@@ -37,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
 
 const urls = [
   {
+    year: "2020-2021",
+    url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20202021.json"
+  },
+  {
     year: "2019-2020",
     url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20192020.json"
   },
