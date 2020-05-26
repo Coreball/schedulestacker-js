@@ -6,6 +6,7 @@ import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
 import ChooseOffPeriods from './ChooseOffPeriods';
 import ChooseTeachers from './ChooseTeachers';
+import ResultsTable from './ResultsTable';
 import worker from 'workerize-loader!./worker'; // eslint-disable-line import/no-webpack-loader-syntax
 
 const theme = createMuiTheme({
@@ -208,15 +209,14 @@ function App() {
           <ChooseOffPeriods options={wantedOffPeriods} onChange={handleWantedOffPeriodChange} />
         );
       case 3:
+        // TODO make this actually change the generation
         return (
           <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange}
             error={availableTeachersAtLeastOneFor} open={loading} count={progressCount} />
         );
       case 4:
         return (
-          <Typography gutterBottom>
-            Length of doneSchedules: {doneSchedules.length}
-          </Typography>
+          <ResultsTable schedules={doneSchedules} />
         )
       default:
         return "Unknown Step";
@@ -241,7 +241,11 @@ function App() {
               </Step>
             ))}
           </Stepper>
+        </Container>
+        <Container maxWidth={activeStep === steps.length ? "xl" : "sm"}>
           {getContent(activeStep)}
+        </Container>
+        <Container maxWidth="sm">
           <div className={classes.buttonWrapper}>
             <Button className={classes.backButton} disabled={activeStep === 0} onClick={handleBack}>
               Back
