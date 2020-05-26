@@ -65,9 +65,10 @@ function App() {
   const [newCourse, setNewCourse] = React.useState();
   const [wantedCourses, setWantedCourses] = React.useState([]);
   const [wantedOffPeriods, setWantedOffPeriods] = React.useState(Array(8).fill(false));
-  const [availableTeachers, setAvailableTeachers] = React.useState('')
+  const [availableTeachers, setAvailableTeachers] = React.useState('');
   const [doneSchedules, setDoneSchedules] = React.useState([]);
   const [progressCount, setProgressCount] = React.useState(0);
+  const [timeTakenMillis, setTimeTakenMillis] = React.useState(0);
 
   const loadMS = async (ms) => {
     console.log("Loading MS for " + ms.year);
@@ -118,16 +119,20 @@ function App() {
 
   const generate = async (courses, offs, teachers) => {
     setLoading(true);
+    const startTime = Date.now();
+    console.log("Starting schedule generation");
     const instance = worker();
     instance.onmessage = (e) => setProgressCount(e.data); // Show user how many found
-    console.log("Starting schedule generation");
     const results = await instance.generateSchedules(courses, offs, teachers);
     console.log("Finished schedule generation");
     console.log(results);
     setDoneSchedules(results);
+    const timeTaken = Date.now() - startTime;
+    console.log("Time taken: " + timeTaken);
+    setTimeTakenMillis(timeTaken);
     setLoading(false);
     setActiveStep(4);
-  }
+  };
 
   const isNextDisabled = () => {
     return loading
@@ -191,7 +196,7 @@ function App() {
         [event.target.name]: event.target.checked
       }
     });
-  }
+  };
 
   const getContent = (stepIndex) => {
     switch (stepIndex) {
@@ -216,7 +221,7 @@ function App() {
         );
       case 4:
         return (
-          <ResultsTable schedules={doneSchedules} />
+          <ResultsTable schedules={doneSchedules} timeTaken={timeTakenMillis} />
         )
       default:
         return "Unknown Step";

@@ -32,7 +32,7 @@ export default function ResultsTable(props) {
   return (
     <div className="ResultsTable">
       <Typography gutterBottom>
-        Length of doneSchedules: {props.schedules.length}
+        Generated {props.schedules.length} schedules in {props.timeTaken / 1000}s
       </Typography>
       <TableContainer className={classes.tableContainer} component={Paper}>
         <Table size="small">
