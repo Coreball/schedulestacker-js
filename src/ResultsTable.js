@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Collapse, makeStyles } from '@material-ui/core';
+import { Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Collapse, makeStyles, IconButton } from '@material-ui/core';
+import { KeyboardArrowRight, KeyboardArrowDown } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
   },
   detailTable: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -73,9 +74,16 @@ function ResultsRow(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
+  const toggleOpen = () => setOpen(!open);
+
   return (
     <React.Fragment>
-      <TableRow onClick={() => setOpen(!open)}>
+      <TableRow onClick={toggleOpen}>
+        <TableCell className={classes.noBorderBottom}>
+          <IconButton size="small" onClick={toggleOpen}>
+            {open ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
+          </IconButton>
+        </TableCell>
         {props.schedule.map((period) => (
           <TableCell className={classes.noBorderBottom}>
             {basicCellRep(period)}
@@ -83,15 +91,16 @@ function ResultsRow(props) {
         ))}
       </TableRow>
       <TableRow>
-        <TableCell className={classes.collapsableCell} colSpan={8}>
+        <TableCell className={classes.collapsableCell}></TableCell>
+        <TableCell className={classes.collapsableCell} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Typography variant="h6" gutterBottom>
-              Details
+              Schedule {props.number}/{props.total}
             </Typography>
             <Table className={classes.detailTable} size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell>Schedule {props.number}</TableCell>
+                  <TableCell>Schedule</TableCell>
                   <TableCell>Semester 1</TableCell>
                   <TableCell>Semester 2</TableCell>
                 </TableRow>
@@ -104,6 +113,7 @@ function ResultsRow(props) {
             </Table>
           </Collapse>
         </TableCell>
+        <TableCell className={classes.collapsableCell}></TableCell>
       </TableRow>
     </React.Fragment>
   )
@@ -122,6 +132,7 @@ export default function ResultsTable(props) {
         <Table size="small">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               {headers.map((heading) => (
                 <TableCell key={heading} className={classes.periodHeaderCell}>
                   {heading}
@@ -131,7 +142,7 @@ export default function ResultsTable(props) {
           </TableHead>
           <TableBody>
             {props.schedules.map((schedule, index) => (
-              <ResultsRow schedule={schedule} number={index + 1} />
+              <ResultsRow schedule={schedule} number={index + 1} total={props.schedules.length} />
             ))}
           </TableBody>
         </Table>

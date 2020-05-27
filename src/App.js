@@ -132,6 +132,7 @@ function App() {
     setTimeTakenMillis(timeTaken);
     setLoading(false);
     setActiveStep(4);
+    window.scrollTo(0, 0);
   };
 
   const isNextDisabled = () => {
