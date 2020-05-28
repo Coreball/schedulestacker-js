@@ -127,6 +127,7 @@ export default function ResultsTable(props) {
     <div className="ResultsTable">
       <Typography gutterBottom>
         Generated {props.schedules.length} schedules in {props.timeTaken / 1000}s
+        {props.schedules.length === 0 && ". No schedules for this combination seem to work... But if you do find one let me know!"}
       </Typography>
       <TableContainer className={classes.tableContainer} component={Paper}>
         <Table size="small">

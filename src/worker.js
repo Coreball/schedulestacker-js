@@ -54,9 +54,11 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
             assert(wantedCourse.year[period].length > 0);
             // Go through all specific courses
             wantedCourse.year[period].forEach((course) => {
-              let newSchedule = [...schedule];
-              newSchedule[period] = [course];
-              computeForPeriod(newSchedule, period + 1);
+              if (availableTeachers[course.name][course.teacher]) {
+                let newSchedule = [...schedule];
+                newSchedule[period] = [course];
+                computeForPeriod(newSchedule, period + 1);
+              }
             });
           }
           // For double period courses and we don't want that off period
@@ -64,10 +66,12 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
             assert(wantedCourse.year[doublePer(period)].length > 0);
             // Go through all specific courses
             wantedCourse.year[doublePer(period)].forEach((course) => {
-              let newSchedule = [...schedule];
-              newSchedule[period] = [course];
-              newSchedule[period + 1] = [course]; // Occupy two slots
-              computeForPeriod(newSchedule, period + 2);
+              if (availableTeachers[course.name][course.teacher]) {
+                let newSchedule = [...schedule];
+                newSchedule[period] = [course];
+                newSchedule[period + 1] = [course]; // Occupy two slots
+                computeForPeriod(newSchedule, period + 2);
+              }
             });
           }
         }
@@ -75,7 +79,9 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
         else if (wantedCourse.s1 && wantedCourse.s1[period]) {
           assert(wantedCourse.s1[period].length > 0);
           wantedCourse.s1[period].forEach((s1) => {
-            solveSecondSemester(schedule, period, s1); // Send to figure out s2
+            if (availableTeachers[s1.name][s1.teacher]) {
+              solveSecondSemester(schedule, period, s1); // Send to figure out s2
+            }
           });
         }
       }
@@ -96,9 +102,11 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
         assert(wantedCourse.s2[period].length > 0);
         // Go through all specific courses
         wantedCourse.s2[period].forEach((s2) => {
-          let newSchedule = [...schedule];
-          newSchedule[period] = [s1, s2];
-          computeForPeriod(newSchedule, period + 1);
+          if (availableTeachers[s2.name][s2.teacher]) {
+            let newSchedule = [...schedule];
+            newSchedule[period] = [s1, s2];
+            computeForPeriod(newSchedule, period + 1);
+          }
         });
       }
     });
