@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles, CircularProgress } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, createMuiTheme, ThemeProvider, Container, Stepper, Step, StepLabel, Button, makeStyles, CircularProgress, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Link } from '@material-ui/core';
+import { Info } from '@material-ui/icons';
 import { deepPurple, purple } from '@material-ui/core/colors';
 import ChooseMS from './ChooseMS';
 import ChooseCourses from './ChooseCourses';
@@ -17,6 +18,9 @@ const theme = createMuiTheme({
 })
 
 const useStyles = makeStyles((theme) => ({
+  title: {
+    flexGrow: 1,
+  },
   buttonWrapper: {
     display: 'flex',
     marginBottom: theme.spacing(4),
@@ -69,6 +73,7 @@ function App() {
   const [doneSchedules, setDoneSchedules] = React.useState([]);
   const [progressCount, setProgressCount] = React.useState(0);
   const [timeTakenMillis, setTimeTakenMillis] = React.useState(0);
+  const [aboutOpen, setAboutOpen] = React.useState(false);
 
   const loadMS = async (ms) => {
     console.log("Loading MS for " + ms.year);
@@ -199,6 +204,10 @@ function App() {
     });
   };
 
+  const handleAboutOpen = () => setAboutOpen(true);
+
+  const handleAboutClose = () => setAboutOpen(false);
+
   const getContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
@@ -234,11 +243,43 @@ function App() {
       <ThemeProvider theme={theme}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6">
+            <Typography variant="h6" className={classes.title}>
               SCHEDULESTACKER JS
             </Typography>
+            <IconButton color="inherit">
+              <Info onClick={handleAboutOpen} />
+            </IconButton>
           </Toolbar>
         </AppBar>
+        <Dialog open={aboutOpen} onClose={handleAboutClose}>
+          <DialogTitle>About</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ScheduleStacker JS is the successor to the original ScheduleStacker project,
+              a tool I created in 2018 to generate schedules for Cherry Creek High School.
+              By rewriting the Java application as a web app, SSJS aims to be easier
+              to use for a greater number of people.
+              You are encouraged to contribute! Create issues, fork, make pull requests.
+              This project is meant to be collaborative and I can't work on it forever.
+            </DialogContentText>
+            <DialogContentText>
+              <Link href="https://github.com/Coreball/schedulestacker-js" color="secondary">ScheduleStacker JS GitHub Repository</Link><br />
+              <Link href="https://coreball.github.io/ScheduleStacker" color="secondary">Original ScheduleStacker Website</Link>
+            </DialogContentText>
+            <DialogContentText>
+              Originally built by Changyuan Lin @Coreball.<br />
+              cl859@cornell.edu (formerly clin3@cherrycreekschools.org)
+            </DialogContentText>
+            <DialogContentText>
+              Thanks for checking it out!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleAboutClose} color="primary">
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Container maxWidth="sm">
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((label) => (

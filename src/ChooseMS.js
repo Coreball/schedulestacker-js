@@ -15,7 +15,14 @@ export default function ChooseMS(props) {
   return (
     <div className="ChooseMS">
       <Typography gutterBottom>
-        Welcome to ScheduleStacker JS! To begin, please select the year of the 
+        Welcome to ScheduleStacker JS!
+      </Typography>
+      <Typography gutterBottom>
+        This is the web version of the original ScheduleStacker project.
+        To learn more, please see the information button at the top right.
+      </Typography>
+      <Typography gutterBottom>
+        Please select the year of the
         Cherry Creek High School Master Schedule to generate schedules for.
         Then press "Next". Hopefully this tool is helpful! I haven't finished it yet
         and this is the development version and I'm writing some filler text.
