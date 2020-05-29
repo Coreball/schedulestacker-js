@@ -29,9 +29,12 @@ export default function ChooseTeachers(props) {
   return (
     <div className="ChooseTeachers">
       <Typography gutterBottom>
-        Instructions for choosing teachers. Clarify that the user must select
-        at least one teacher for each course offered, and it's possible that no
-        schedules exist for any combination.
+        Check the boxes corresponding to teachers you want included in the generation process.
+        At least one teacher must be selected for each course, and choosing two or more will
+        allow either teacher to appear in each generated schedule. Keep in mind that it is possible
+        no schedules exist for any given combination of teachers and courses. If you are experiencing
+        performance problems and have selected many teachers, try reducing the number selected
+        for each class as the number of combinations can increase very quickly.
       </Typography>
       <div className={classes.forms}>
         {Object.keys(props.options).map((course) => (

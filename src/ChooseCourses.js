@@ -35,7 +35,8 @@ export default function ChooseCourses(props) {
   return (
     <div className="ChooseCourses">
       <Typography gutterBottom>
-        Instructions to select courses
+        Add the courses to generate schedules for. Featuring fancy autocomplete
+        when you type things in, and alphabetical classes sorted by subject number.
       </Typography>
       <div className={classes.autoButton}>
         <Autocomplete

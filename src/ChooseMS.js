@@ -22,10 +22,9 @@ export default function ChooseMS(props) {
         To learn more, please see the information button at the top right.
       </Typography>
       <Typography gutterBottom>
-        Please select the year of the
-        Cherry Creek High School Master Schedule to generate schedules for.
-        Then press "Next". Hopefully this tool is helpful! I haven't finished it yet
-        and this is the development version and I'm writing some filler text.
+        Please select the year of the Cherry Creek High School Master Schedule
+        to generate schedules for, then press "Next". A computer is advised for the
+        best experience. Hopefully you find this tool helpful!
       </Typography>
       <FormControl className={classes.formControl}>
         <InputLabel id="year">Year</InputLabel>

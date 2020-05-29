@@ -224,7 +224,6 @@ function App() {
           <ChooseOffPeriods options={wantedOffPeriods} onChange={handleWantedOffPeriodChange} />
         );
       case 3:
-        // TODO make this actually change the generation
         return (
           <ChooseTeachers options={availableTeachers} onChange={handleAvailableTeacherChange}
             error={availableTeachersAtLeastOneFor} open={loading} count={progressCount} />
