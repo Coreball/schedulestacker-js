@@ -98,7 +98,7 @@ export function generateSchedules(wantedCourses, wantedOffPeriods, availableTeac
     // Go through s2 courses
     wantedCourses.forEach((wantedCourse) => {
       if (!alreadyContains(schedule, wantedCourse) && wantedCourse.s2
-        && wantedCourse.s2[period] && (s1 === null || s1.name != wantedCourse.name)) {
+        && wantedCourse.s2[period] && (s1 === null || s1.name !== wantedCourse.name)) {
         assert(wantedCourse.s2[period].length > 0);
         // Go through all specific courses
         wantedCourse.s2[period].forEach((s2) => {
