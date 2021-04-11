@@ -1,25 +1,23 @@
 {
   "files": {
-    "main.css": "/schedulestacker-js/static/css/main.f3b0e6f2.chunk.css",
-    "main.js": "/schedulestacker-js/static/js/main.2195dbc8.chunk.js",
-    "main.js.map": "/schedulestacker-js/static/js/main.2195dbc8.chunk.js.map",
-    "runtime-main.js": "/schedulestacker-js/static/js/runtime-main.9915a256.js",
-    "runtime-main.js.map": "/schedulestacker-js/static/js/runtime-main.9915a256.js.map",
-    "static/js/2.90e7a7f9.chunk.js": "/schedulestacker-js/static/js/2.90e7a7f9.chunk.js",
-    "static/js/2.90e7a7f9.chunk.js.map": "/schedulestacker-js/static/js/2.90e7a7f9.chunk.js.map",
-    "4d2e2b7e4c790d6ea53a.worker.js": "/schedulestacker-js/4d2e2b7e4c790d6ea53a.worker.js",
-    "4d2e2b7e4c790d6ea53a.worker.js.LICENSE.txt": "/schedulestacker-js/4d2e2b7e4c790d6ea53a.worker.js.LICENSE.txt",
-    "4d2e2b7e4c790d6ea53a.worker.js.map": "/schedulestacker-js/4d2e2b7e4c790d6ea53a.worker.js.map",
+    "main.css": "/schedulestacker-js/static/css/main.12c5ebc9.chunk.css",
+    "main.js": "/schedulestacker-js/static/js/main.ce94aa3e.chunk.js",
+    "main.js.map": "/schedulestacker-js/static/js/main.ce94aa3e.chunk.js.map",
+    "runtime-main.js": "/schedulestacker-js/static/js/runtime-main.5caaf497.js",
+    "runtime-main.js.map": "/schedulestacker-js/static/js/runtime-main.5caaf497.js.map",
+    "static/js/2.c6cc483d.chunk.js": "/schedulestacker-js/static/js/2.c6cc483d.chunk.js",
+    "static/js/2.c6cc483d.chunk.js.map": "/schedulestacker-js/static/js/2.c6cc483d.chunk.js.map",
+    "3aa400f4d5ce16491dbe.worker.js": "/schedulestacker-js/3aa400f4d5ce16491dbe.worker.js",
+    "3aa400f4d5ce16491dbe.worker.js.LICENSE.txt": "/schedulestacker-js/3aa400f4d5ce16491dbe.worker.js.LICENSE.txt",
+    "3aa400f4d5ce16491dbe.worker.js.map": "/schedulestacker-js/3aa400f4d5ce16491dbe.worker.js.map",
     "index.html": "/schedulestacker-js/index.html",
-    "precache-manifest.0642a6e800a14dd4b192b874655734e7.js": "/schedulestacker-js/precache-manifest.0642a6e800a14dd4b192b874655734e7.js",
-    "service-worker.js": "/schedulestacker-js/service-worker.js",
-    "static/css/main.f3b0e6f2.chunk.css.map": "/schedulestacker-js/static/css/main.f3b0e6f2.chunk.css.map",
-    "static/js/2.90e7a7f9.chunk.js.LICENSE.txt": "/schedulestacker-js/static/js/2.90e7a7f9.chunk.js.LICENSE.txt"
+    "static/css/main.12c5ebc9.chunk.css.map": "/schedulestacker-js/static/css/main.12c5ebc9.chunk.css.map",
+    "static/js/2.c6cc483d.chunk.js.LICENSE.txt": "/schedulestacker-js/static/js/2.c6cc483d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.9915a256.js",
-    "static/js/2.90e7a7f9.chunk.js",
-    "static/css/main.f3b0e6f2.chunk.css",
-    "static/js/main.2195dbc8.chunk.js"
+    "static/js/runtime-main.5caaf497.js",
+    "static/js/2.c6cc483d.chunk.js",
+    "static/css/main.12c5ebc9.chunk.css",
+    "static/js/main.ce94aa3e.chunk.js"
   ]
 }
