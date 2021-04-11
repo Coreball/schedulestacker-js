@@ -15,7 +15,7 @@ export default function ChooseMS(props) {
   return (
     <div className="ChooseMS">
       <Typography gutterBottom>
-        Welcome to ScheduleStacker JS!
+        Welcome to schedulestacker-js!
       </Typography>
       <Typography gutterBottom>
         This is the web version of the original ScheduleStacker project.

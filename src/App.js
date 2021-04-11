@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
 
 const urls = [
   {
+    year: "2021-2022",
+    url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20212022.json"
+  },
+  {
     year: "2020-2021",
     url: "https://raw.githubusercontent.com/Coreball/schedulestacker-data/master/json/MasterSchedule20202021.json"
   },
@@ -243,7 +247,7 @@ function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              SCHEDULESTACKER JS
+              SCHEDULESTACKER-JS
             </Typography>
             <IconButton color="inherit">
               <Info onClick={handleAboutOpen} />
@@ -254,20 +258,21 @@ function App() {
           <DialogTitle>About</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              ScheduleStacker JS is the successor to the original ScheduleStacker project,
+              schedulestacker-js is the successor to the original ScheduleStacker project,
               a tool I created in 2018 to generate schedules for Cherry Creek High School.
-              By rewriting the Java application as a web app, SSJS aims to be easier
-              to use for a greater number of people.
+              By rewriting the Java application as a web app, schedulestacker-js aims
+              to be easier to use for a greater number of people.
               You are encouraged to contribute! Create issues, fork, make pull requests.
               This project is meant to be collaborative and I can't work on it forever.
             </DialogContentText>
             <DialogContentText>
-              <Link href="https://github.com/Coreball/schedulestacker-js" color="secondary">ScheduleStacker JS GitHub Repository</Link><br />
-              <Link href="https://coreball.github.io/ScheduleStacker" color="secondary">Original ScheduleStacker Website</Link>
+              <Link href="https://github.com/Coreball/schedulestacker-js" color="secondary">schedulestacker-js GitHub Repository</Link><br />
+              <Link href="https://coreball.github.io/ScheduleStacker" color="secondary">Original ScheduleStacker Website</Link><br />
+              <Link href="https://github.com/Coreball/schedulestacker-data" color="secondary">Data Repository</Link>
             </DialogContentText>
             <DialogContentText>
               Originally built by Changyuan Lin @Coreball.<br />
-              cl859@cornell.edu (formerly clin3@cherrycreekschools.org)
+              changyuan.lin@outlook.com (formerly clin3@cherrycreekschools.org)
             </DialogContentText>
             <DialogContentText>
               Thanks for checking it out!
